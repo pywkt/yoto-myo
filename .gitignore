@@ -1,0 +1,10 @@
+# secrets / login state
+.env
+.yoto-token.json
+
+# per-folder card state (tied to your account) and your audio
+.yoto-card.json
+*.mp3
+*.m4a
+
+node_modules/
