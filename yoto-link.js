@@ -20,10 +20,15 @@ const { readCardFile, writeCardFile } = require('./yoto-upload');
 const log = (...a) => console.log(...a);
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
-async function listDevices(token) {
+async function getDevices(token) {
   const devs = await api(token, 'GET', '/device-v2/devices/mine');
   const devices = devs.devices || devs;
   if (!Array.isArray(devices) || devices.length === 0) throw new Error('No players found on this account.');
+  return devices;
+}
+
+async function listDevices(token) {
+  const devices = await getDevices(token);
   log('\nPlayers:');
   devices.forEach((d) => log(`  ${d.online ? '●' : '○'} ${d.name}  (${d.deviceFamily || d.deviceType || '?'}${d.online ? ', online' : ', offline'})`));
   return devices;
@@ -36,6 +41,11 @@ function pickDevice(devices, filter) {
   if (pick.length === 0) throw new Error('No matching online player. Is it on and connected to Wi-Fi?');
   if (pick.length > 1) throw new Error(`Several online players match; pick one with --device NAME:\n  ${pick.map((d) => d.name).join('\n  ')}`);
   return pick[0];
+}
+
+/** The one online player, or the one matching `filter` (name substring or deviceId). */
+async function chooseDevice(token, filter) {
+  return pickDevice(await getDevices(token), filter);
 }
 
 /**
@@ -70,7 +80,7 @@ async function linkCard(cardId, opts = {}) {
     const existing = readCardFile(opts.folder);
     writeCardFile(opts.folder, { ...existing, cardId, linkedAt: new Date().toISOString(), linkedWith: device.name });
   }
-  log('\nRemove the card and reinsert it to play. Play it once online so the player caches it.');
+  log('\nRemove the card so the player can download the audio while idle; then it plays offline.');
   return { ok, deviceName: device.name };
 }
 
@@ -84,7 +94,7 @@ function resolveCardId(t) {
   return { cardId: t, folder: null };
 }
 
-module.exports = { linkCard, listDevices };
+module.exports = { linkCard, listDevices, getDevices, pickDevice, chooseDevice };
 
 if (require.main === module) {
   const args = process.argv.slice(2);

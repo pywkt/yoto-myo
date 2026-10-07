@@ -124,7 +124,7 @@ async function getAccessToken({ reset = false } = {}) {
     throw new Error('YOTO_CLIENT_ID is not set.\n  Create a public client at https://dashboard.yoto.dev with redirect URL\n  ' +
       REDIRECT_URI + ', then copy .env.example to .env and fill in the client ID.');
   }
-  if (reset) { try { fs.unlinkSync(TOKEN_FILE); } catch {} }
+  if (reset) { try { fs.unlinkSync(TOKEN_FILE); } catch { /* nothing to reset */ } }
   const saved = loadToken();
   if (saved?.refresh_token) {
     const tok = await refreshAccessToken(saved.refresh_token);

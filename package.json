@@ -3,7 +3,18 @@
   "private": true,
   "description": "Folder of audio → Yoto MYO card, no phone app",
   "license": "MIT",
-  "engines": { "node": ">=20.12" },
-  "scripts": { "status": "node yoto-status.js" },
-  "dependencies": { "mqtt": "^5" }
+  "engines": {
+    "node": ">=20.12"
+  },
+  "scripts": {
+    "status": "node yoto-status.js",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "mqtt": "^5"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.12.0"
+  }
 }

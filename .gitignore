@@ -8,3 +8,7 @@
 *.m4a
 
 node_modules/
+
+# local working files
+TODO.md
+.converted/
