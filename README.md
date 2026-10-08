@@ -124,8 +124,8 @@ and whether a background download is running. `--wait` does the same watching as
 - Status comes from the same MQTT broker the app uses, authenticated with your token.
 - Nothing here talks to the player over NFC or touches its firmware. Cards made this
   way are ordinary MYO cards and keep working if you later delete this tool.
-- Your audio, `.env`, the cached login, `.converted/` and `.yoto-card.json` files are
-  git-ignored.
+- `playlists/` is git-ignored, so keep your folders there. Audio files anywhere, `.env`,
+  the cached login, `.converted/` and `.yoto-card.json` are ignored too.
 
 ## Files
 

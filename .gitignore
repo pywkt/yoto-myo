@@ -2,10 +2,18 @@
 .env
 .yoto-token.json
 
-# per-folder card state (tied to your account) and your audio
+# your playlists (audio, sidecar files) and per-folder card state tied to your account
+playlists/
 .yoto-card.json
 *.mp3
 *.m4a
+*.flac
+*.ogg
+*.opus
+*.wav
+*.aac
+*.wma
+*.aiff
 
 node_modules/
 
